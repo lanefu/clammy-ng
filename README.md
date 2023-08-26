@@ -15,11 +15,11 @@ Desire is to have a robust router config with zone firewall leveraging the follo
 
 ## getting started
 
-This repo is meant to be the ansible project directory.. or close to it plus documentation..  Trying to leverage off-the-shelf roles when possible.  Other roles will via the clammy collection
+This repo is meant to be the ansible project directory.. or close to it plus documentation..  Trying to leverage off-the-shelf roles when possible.  Other roles will via the [clammy collection](https://github.com/lanefu/ansible-collection-clammy)
 
 ### environment setup
 
-there are better ways, but this way for now...  `.gitignore` has been preconfigured to hide the `.ansible` home directory and `venv` used in the example.
+there are better ways, but this way for now...  `.gitignore` has been preconfigured to use namedspace ansible home `~/.clammy-ng-ansible/` and `venv` used in the example.
 
 #### requirements
 
