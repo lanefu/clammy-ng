@@ -1,0 +1,7 @@
+---
+collections:
+  - name: ansible.posix
+  - name: ansible.utils
+roles:
+  - name: mrlesmithjr.netplan
+  - name: mrlesmithjr.frr
