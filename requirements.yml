@@ -1,9 +1,6 @@
 ---
 collections:
-  - name: https://github.com/lanefu/ansible-collection-clammy.git
-    type: git
   - name: ansible.posix
   - name: ansible.utils
 roles:
-  - name: mrlesmithjr.netplan
   - name: mrlesmithjr.frr

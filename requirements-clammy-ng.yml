@@ -1,0 +1,4 @@
+---
+collections:
+  - name: https://github.com/lanefu/ansible-collection-clammy.git
+    type: git

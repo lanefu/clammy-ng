@@ -30,4 +30,5 @@ python3 venv venv
 source activate venv/bin/activate
 python3 -m pip install requirements.txt
 ansible-galaxy install -r requirements.yml
+ansible-galaxy install -r requirements-clammy-ng.yml 
 ```

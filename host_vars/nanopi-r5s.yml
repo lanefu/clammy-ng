@@ -1,0 +1,47 @@
+---
+
+netplan_enabled: true
+netplan_apply: false
+netplan_packages:
+ - netplan.io
+ - netplan-generator # wondering if this is a debian sid thing
+
+wan_netplan_config_file: /etc/netplan/wan.yaml
+wan_netplan_configuration:
+  network:
+    ethernets:
+      wan:
+        dhcp4: yes
+
+lan_netplan_config_file: /etc/netplan/lan.yaml
+lan_netplan_configuration:
+  network:
+    ethernets:
+      lan1:
+        dhcp4: no
+      lan2:
+        dhcp4: no
+    bonds:
+      bond0:
+        dhcp4: no
+        interfaces:
+          - lan1
+          - lan2
+        parameters:
+          mode: 802.3ad
+          lacp-rate: fast
+          mii-monitor-interval: 100
+          transmit-hash-policy: layer2+3
+        addresses: 
+          - "192.168.100.1/24"
+    vlans:
+      test1:
+        id: 1001
+        link: bond0
+        addresses: 
+          - "192.168.102.1/24"
+      test2:
+        id: 1002
+        link: bond0
+        addresses: 
+          - "192.168.102.1/24"

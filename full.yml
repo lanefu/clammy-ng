@@ -1,0 +1,30 @@
+- hosts: 
+  - example_routers
+
+  vars:
+    example_var: "test"
+  tasks:
+    - name: configure wan interface with netplan 
+      import_role:
+        name: lanefu.clammy.netplan
+      vars:
+        netplan_configuration: "{{ wan_netplan_configuration }}"
+        netplan_config_file: "{{ wan_netplan_config_file }}"
+        netplan_apply: True
+      tags:
+        - netplan
+        - wan
+    - name: configure lan interfaces with netplan 
+      import_role:
+        name: lanefu.clammy.netplan
+      vars:
+        netplan_configuration: "{{ lan_netplan_configuration }}"
+        netplan_config_file: "{{ lan_netplan_config_file }}"
+        netplan_apply: True
+        netplan_remove_existing: false
+      tags:
+        - netplan
+        - lan
+    - name: reminders
+      debug:
+        msg: dont forget to finish the project
