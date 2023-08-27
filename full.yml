@@ -1,9 +1,16 @@
 - hosts: 
   - example_routers
-
+ 
   vars:
     example_var: "test"
   tasks:
+    - name: sysctl base configurations
+      import_role:
+        name: lanefu.clammy.sysctl_base
+      tags:
+        - core
+        - sysctl
+        - system
     - name: configure wan interface with netplan 
       import_role:
         name: lanefu.clammy.netplan
@@ -14,6 +21,14 @@
       tags:
         - netplan
         - wan
+        - interfaces
+##FIXME need more elegant way in role to apply / flush
+    - name: Flush handlers to apply netplan WAN now
+      meta: flush_handlers
+      tags:
+        - netplan
+        - wan
+        - interfaces
     - name: configure lan interfaces with netplan 
       import_role:
         name: lanefu.clammy.netplan
@@ -25,6 +40,20 @@
       tags:
         - netplan
         - lan
+        - interfaces
+##FIXME need more elegant way in role to apply / flush
+    - name: Flush handlers to apply netplan LAN now
+      meta: flush_handlers
+      tags:
+        - netplan
+        - lan
+        - interfaces
+    - name: reminders
+      debug:
+        msg: dont forget to finish the project
+    - name: reminders
+      debug:
+        msg: dont forget to finish the project
     - name: reminders
       debug:
         msg: dont forget to finish the project
