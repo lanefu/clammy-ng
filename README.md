@@ -50,3 +50,5 @@ guesses so far:
 1. configure lan/vpn zones
 1. configure wan/vpn zone policies
 1. configure DHCP / DNS (dnsmasq)  # what happens if vpn needs DNS to work?
+1. configure advanced routing (frrouting)
+1. configure monitoring
