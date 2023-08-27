@@ -48,6 +48,16 @@
         - netplan
         - lan
         - interfaces
+    - name: Wireguard interfaces
+      debug:
+        msg: you would probably do wireguard interfaces here
+    - name: dnsmasq role
+      import_role:
+        name: mrlesmithjr.ansible_dnsmasq
+      tags:
+        - dns
+        - dhcp
+        - dnsmasq
     - name: reminders
       debug:
         msg: dont forget to finish the project

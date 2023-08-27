@@ -6,6 +6,40 @@ netplan_packages:
  - netplan.io
  - netplan-generator # wondering if this is a debian sid thing
 
+# lets make a data structure for our networks 
+
+networks:
+  wan:
+    interface: wan
+    description: wan
+  bond0:
+    interface: bond0
+    description: test network 0 untagged
+    address: "192.168.100.1"
+    netmask: "255.255.255.0"
+    address_summarized: "192.168.100.1/24"
+    dhcp:
+      start: 192.168.100.100
+      end: 192.168.100.150
+  test1:
+    interface: test1
+    description: test network 1
+    address: "192.168.101.1"
+    netmask: "255.255.255.0"
+    address_summarized: "192.168.101.1/24"
+    dhcp:
+      start: 192.168.101.100
+      end: 192.168.101.150
+  test2:
+    interface: test2
+    description: test network 1
+    address: "192.168.102.1"
+    netmask: "255.255.255.0"
+    address_summarized: "192.168.102.1/24"
+    dhcp:
+      start: 192.168.102.100
+      end: 192.168.102.150
+
 wan_netplan_config_file: /etc/netplan/wan.yaml
 wan_netplan_configuration:
   network:
@@ -33,15 +67,40 @@ lan_netplan_configuration:
           mii-monitor-interval: 100
           transmit-hash-policy: layer2+3
         addresses: 
-          - "192.168.100.1/24"
+          - "{{ networks.bond0.address_summarized }}"
     vlans:
       test1:
         id: 1001
         link: bond0
         addresses: 
-          - "192.168.102.1/24"
+          - "{{ networks.test1.address_summarized }}"
       test2:
         id: 1002
         link: bond0
         addresses: 
-          - "192.168.102.1/24"
+          - "{{ networks.test2.address_summarized }}"
+
+dnsmasq_nameservers:
+  - 8.8.4.4
+  - 1.1.1.1
+
+dnsmasq_config: true
+dnsmasq_enable_dhcp: true
+dnsmasq_pri_domain_name: clammy-ng.example.com
+
+dnsmasq_dhcp_scopes:
+- interface: "{{ networks.bond0.interface }}"
+  netmask: "{{ networks.bond0.netmask }}"
+  start: "{{ networks.bond0.dhcp.start }}"
+  end: "{{ networks.bond0.dhcp.end }}"
+  lease_time: "4h"
+- interface: "{{ networks.test1.interface }}"
+  netmask: "{{ networks.test1.netmask }}"
+  start: "{{ networks.test1.dhcp.start }}"
+  end: "{{ networks.test1.dhcp.end }}"
+  lease_time: "4h"
+- interface: "{{ networks.test2.interface }}"
+  netmask: "{{ networks.test2.netmask }}"
+  start: "{{ networks.test2.dhcp.start }}"
+  end: "{{ networks.test2.dhcp.end }}"
+  lease_time: "4h"
