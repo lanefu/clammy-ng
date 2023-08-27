@@ -32,3 +32,21 @@ python3 -m pip install requirements.txt
 ansible-galaxy install -r requirements.yml
 ansible-galaxy install -r requirements-clammy-ng.yml 
 ```
+
+## order of operations
+
+Naturally there's some sequencing challenges with a router.. especially out of the box.  For now `full.yml` is the POC full sequence of operations.
+in reality, this stuff will proably want to be decoupled...  
+
+I think there's going to be a generally need to decouple WAN interface-oriented operations from LAN, including firewall management.
+
+guesses so far:
+
+1. sysctl_base config # interface specific stuff might move this
+1. configure wan interface
+1. configure lan interfaces
+1. configure vpn interfaces
+1. configure wan firewall ingress and port forwards
+1. configure lan/vpn zones
+1. configure wan/vpn zone policies
+1. configure DHCP / DNS (dnsmasq)  # what happens if vpn needs DNS to work?
