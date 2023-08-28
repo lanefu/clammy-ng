@@ -58,6 +58,12 @@
         - dns
         - dhcp
         - dnsmasq
+    - name: frr routing role
+      import_role:
+        name: mrlesmithjr.frr
+      tags:
+        - frr
+        - routing
     - name: reminders
       debug:
         msg: dont forget to finish the project

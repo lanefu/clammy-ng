@@ -39,6 +39,11 @@ networks:
     dhcp:
       start: 192.168.102.100
       end: 192.168.102.150
+  ospf0:
+    interface: ospf0
+    description: internal routing interface
+    address: "172.17.19.3"
+    address_summarized: "172.17.19.3/29"
 
 wan_netplan_config_file: /etc/netplan/wan.yaml
 wan_netplan_configuration:
@@ -65,7 +70,7 @@ lan_netplan_configuration:
           mode: 802.3ad
           lacp-rate: fast
           mii-monitor-interval: 100
-          transmit-hash-policy: layer2+3
+          transmit-hash-policy: layer3+4
         addresses: 
           - "{{ networks.bond0.address_summarized }}"
     vlans:
@@ -79,6 +84,11 @@ lan_netplan_configuration:
         link: bond0
         addresses: 
           - "{{ networks.test2.address_summarized }}"
+      ospf0:
+        id: 100
+        link: bond0
+        addresses: 
+          - "{{ networks.ospf0.address_summarized }}"
 
 dnsmasq_nameservers:
   - 8.8.4.4
@@ -104,3 +114,57 @@ dnsmasq_dhcp_scopes:
   start: "{{ networks.test2.dhcp.start }}"
   end: "{{ networks.test2.dhcp.end }}"
   lease_time: "4h"
+
+frr_use_upstream_repo_debian: false
+frr_apt_version: frr-stable
+frr_apt_repository: "deb https://deb.frrouting.org/frr bookworm {{ frr_apt_version }}"
+frr_apt_always_install_latest: true
+
+dynamic_routing: true
+
+frr_router_id: 172.17.19.3
+#frr_version: 7.5.1
+frr_daemons:
+  bfdd: false
+  bgpd: false
+  isisd: false
+  ldpd: false
+  nhrpd: false
+  ospf6d: false
+  ospfd: true
+  pimd: false
+  ripd: false
+  ripngd: false
+  zebra: true
+frr_ospf:
+  redistribute:
+    - static
+    - kernel
+    - connected
+  areas:
+    0:
+      networks: 
+        - 172.17.19.0/29
+        #    2:
+        #      networks:
+        #        - 10.252.0.0/16
+        #        - 10.99.99.12/30
+  passive_interfaces:
+    - wan
+#frr_static:
+#  10.252.0.0/16:
+#    10.252.2.1
+log_adjacency_changes: true
+## im pretty sure that this is indented wrong
+passive_interfaces: # A list of interfaces to set passive
+  - wan
+redistribute: # A list of protocols to redistribute
+  - bgp
+  - connected
+  - kernel
+  - ospf
+  - static
+distribute_list:
+  - name: 10
+    dir: out
+    protocol: connected
