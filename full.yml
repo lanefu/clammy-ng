@@ -64,6 +64,12 @@
       tags:
         - frr
         - routing
+    - name: foomuuri firewall role
+      import_role:
+        name: lanefu.clammy.foomuuri
+      tags:
+        - foomuuri
+        - firewall
     - name: reminders
       debug:
         msg: dont forget to finish the project
