@@ -3,7 +3,5 @@ collections:
   - name: ansible.posix
   - name: ansible.utils
 roles:
-  - name: mrlesmithjr.frr
-    src: https://github.com/mrlesmithjr/ansible-frr.git
   - name: mrlesmithjr.ansible_dnsmasq
     version: "v1.3.2"
