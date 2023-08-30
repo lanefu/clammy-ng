@@ -8,5 +8,4 @@
   
     - name: try debuggign stuff
       debug:
-        msg: "{{ item.value.interface }} {{ item.value.zone | default(omit) }}"
-      loop: "{{ networks | dict2items}}"
+        msg: "{{ networks |dict2items | map('extract', value, ['interface','zone'] }}"
