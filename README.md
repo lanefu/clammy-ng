@@ -8,7 +8,7 @@ Current device target is a nanopi-r5s running Armbian using a WAN port for inter
 Desire is to have a robust router config with zone firewall leveraging the following underlying components
 
 *  netplan
-*  firewalld
+*  ~~firewalld~~ [foomuuri](https://github.com/FoobarOy/foomuuri)
 *  dnsmasq
 *  frrouting
 *  wireguard
