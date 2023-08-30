@@ -2,7 +2,6 @@
 collections:
   - name: ansible.posix
   - name: ansible.utils
-  - name: community.general
 roles:
   - name: mrlesmithjr.ansible_dnsmasq
     version: "v1.3.2"

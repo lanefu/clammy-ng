@@ -1,2 +1,1 @@
 ansible-core~=2.15
-jmespath
