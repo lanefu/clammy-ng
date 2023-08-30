@@ -8,4 +8,6 @@
   
     - name: try debuggign stuff
       debug:
-        msg: "{{ networks |dict2items | map('extract', value, ['interface','zone'] }}"
+        msg: "{{ item.interface }} {{ item.zone }}"
+      loop: "{{ foomuuri_zones }}"
+        
