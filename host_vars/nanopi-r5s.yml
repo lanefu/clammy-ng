@@ -12,9 +12,11 @@ networks:
   wan:
     interface: wan
     description: wan
+    zone: wan
   bond0:
     interface: bond0
     description: test network 0 untagged
+    zone: user
     address: "192.168.100.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.100.1/24"
@@ -24,6 +26,7 @@ networks:
   test1:
     interface: test1
     description: test network 1
+    zone: test1
     address: "192.168.101.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.101.1/24"
@@ -33,6 +36,7 @@ networks:
   test2:
     interface: test2
     description: test network 1
+    zone: test2
     address: "192.168.102.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.102.1/24"

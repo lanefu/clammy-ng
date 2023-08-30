@@ -1,0 +1,12 @@
+- name: debug vars
+  hosts: localhost
+  gather_facts: no
+  
+  tasks:
+    - name: load my vars
+      include_vars: host_vars/nanopi-r5s.yml
+  
+    - name: try debuggign stuff
+      debug:
+        msg: "{{ item.value.interface }} {{ item.value.zone | default(omit) }}"
+      loop: "{{ networks | dict2items}}"
