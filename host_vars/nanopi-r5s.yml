@@ -171,11 +171,18 @@ distribute_list:
 
 foomuuri_zones:
   - zone: wan
-    interface: wan
+    interfaces:
+      - wan
   - zone: test0
-    interface: bond0
+    interfaces:
+      - bond0
   - zone: test1
-    interface: test1
+    interfaces:
+      - test1
   - zone: test2
-    interface: test2
+    interfaces:
+      - test2
+  - zone: gateway
+    interfaes:
+      - ospf0
 
