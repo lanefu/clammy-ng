@@ -6,15 +6,17 @@ netplan_packages:
  - netplan.io
  - netplan-generator # wondering if this is a debian sid thing
 
-# lets make a data structure for our networks 
+# lets make a data structure for our networks
 
 networks:
   wan:
     interface: wan
     description: wan
+    zone: wan
   bond0:
     interface: bond0
     description: test network 0 untagged
+    zone: test0-zone
     address: "192.168.100.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.100.1/24"
@@ -24,6 +26,7 @@ networks:
   test1:
     interface: test1
     description: test network 1
+    zone: test1-zone
     address: "192.168.101.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.101.1/24"
@@ -33,6 +36,7 @@ networks:
   test2:
     interface: test2
     description: test network 1
+    zone: test2-zone
     address: "192.168.102.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.102.1/24"
@@ -44,6 +48,7 @@ networks:
     description: internal routing interface
     address: "172.17.19.3"
     address_summarized: "172.17.19.3/29"
+    zone: gateway
 
 wan_netplan_config_file: /etc/netplan/wan.yaml
 wan_netplan_configuration:
@@ -71,23 +76,23 @@ lan_netplan_configuration:
           lacp-rate: fast
           mii-monitor-interval: 100
           transmit-hash-policy: layer3+4
-        addresses: 
+        addresses:
           - "{{ networks.bond0.address_summarized }}"
     vlans:
       test1:
         id: 1001
         link: bond0
-        addresses: 
+        addresses:
           - "{{ networks.test1.address_summarized }}"
       test2:
         id: 1002
         link: bond0
-        addresses: 
+        addresses:
           - "{{ networks.test2.address_summarized }}"
       ospf0:
         id: 100
         link: bond0
-        addresses: 
+        addresses:
           - "{{ networks.ospf0.address_summarized }}"
 
 dnsmasq_nameservers:
@@ -143,7 +148,7 @@ frr_ospf:
     - connected
   areas:
     0:
-      networks: 
+      networks:
         - 172.17.19.0/29
         #    2:
         #      networks:
@@ -168,21 +173,3 @@ distribute_list:
   - name: 10
     dir: out
     protocol: connected
-
-foomuuri_zones:
-  - zone: wan
-    interfaces:
-      - wan
-  - zone: test0
-    interfaces:
-      - bond0
-  - zone: test1
-    interfaces:
-      - test1
-  - zone: test2
-    interfaces:
-      - test2
-  - zone: gateway
-    interfaes:
-      - ospf0
-

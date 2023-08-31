@@ -1,13 +1,9 @@
 - name: debug vars
   hosts: localhost
   gather_facts: no
-  
+
   tasks:
-    - name: load my vars
-      include_vars: host_vars/nanopi-r5s.yml
-  
-    - name: try debuggign stuff
+    - name: try debugging stuff
       debug:
-        msg: "{{ item.interface }} {{ item.zone }}"
-      loop: "{{ foomuuri_zones }}"
-        
+        msg: "{{ hostvars['nanopi-r5s']['networks'] | interfaces_by_zone }}"
+
