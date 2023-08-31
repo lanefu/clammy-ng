@@ -1,0 +1,51 @@
+---
+DOCUMENTATION:
+  name: interfaces_by_zone
+  short_description: Return zones and the list of the member interfaces
+  author: Sam Doran (@samdoran)
+  description:
+    - From a dictionry of interfaces, return a list of zones and the interfaces in each zone.
+  options:
+    _input:
+      description: Dictionary of network interfaces
+      type: dict
+      required: yes
+
+EXAMPLES: |
+  # Vars
+  interfaces:
+    eth0:
+      zone: wan
+    eth1:
+      zone: internal
+    eth2:
+      zone: internal
+    bond0:
+      zone: vpn
+    bond1:
+      description: Not in a zone
+
+  # Task
+  - name: Return a list of zones and their interfaces
+    debug:
+      msg: "{{ interfaces | interfaces_by_zone }}"
+
+  # Result
+      - zone: wan
+        interfaces:
+          - eth0
+
+      - zone: internal
+        interfaces:
+          - eth1
+
+      - zone: vpn
+        interfaces:
+          - eth1
+          - eth2
+
+RETURN:
+  _value:
+    description: A list of zones.
+    type: list
+    elements: dict

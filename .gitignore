@@ -1,3 +1,5 @@
 venv/
 .*.sw*
 .ansible/
+__pycache__
+.python-version
