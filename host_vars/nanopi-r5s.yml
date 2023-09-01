@@ -173,3 +173,5 @@ distribute_list:
   - name: 10
     dir: out
     protocol: connected
+
+foomuuri_zone_map: "{{ networks | interfaces_by_zone }}"
