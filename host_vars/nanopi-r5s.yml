@@ -16,7 +16,7 @@ foomuuri_networks:
   bond0:
     interface: bond0
     description: test network 0 untagged
-    zone: test0-zone
+    zone: test0z
     address: "192.168.100.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.100.1/24"
@@ -26,7 +26,7 @@ foomuuri_networks:
   test1:
     interface: test1
     description: test network 1
-    zone: test1-zone
+    zone: test1z
     address: "192.168.101.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.101.1/24"
@@ -36,7 +36,7 @@ foomuuri_networks:
   test2:
     interface: test2
     description: test network 1
-    zone: test2-zone
+    zone: test2z
     address: "192.168.102.1"
     netmask: "255.255.255.0"
     address_summarized: "192.168.102.1/24"
@@ -49,6 +49,59 @@ foomuuri_networks:
     address: "172.17.19.3"
     address_summarized: "172.17.19.3/29"
     zone: gateway
+
+iperf_rule: "tcp 5201"
+
+foomuuri_zone_policy:
+  localhost:
+    from_zone: 
+      - any:
+          description: my any rules
+          rules:
+            - ping
+            - ssh
+      - test1z:
+          description: my public rules
+          rules:
+            - https
+            - reject log
+      - test2z:
+          description: Accept DNS queries to internal, in addition to localhost-any rules.
+          rules:
+            - domain
+            - reject log
+  test0z:
+    from_zone:
+      - any:
+          description: ping iperf ssh
+          rules:
+            - ping   
+            - ssh
+            - "{{ iperf_rule }}"
+  test1z:
+    from_zone:
+      - any:
+          description: ping iperf ssh
+          rules:
+            - ping   
+            - ssh
+            - "{{ iperf_rule }}"
+  test2z:
+    from_zone:
+      - any:
+          description: ping iperf ssh
+          rules:
+            - ping   
+            - ssh
+            - "{{ iperf_rule }}"
+  gateway:
+    from_zone:
+      - any:
+          description: ping iperf ssh
+          rules:
+            - ping   
+            - ssh
+            - "{{ iperf_rule }}"
 
 wan_netplan_config_file: /etc/netplan/wan.yaml
 wan_netplan_configuration:
