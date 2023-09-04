@@ -1,9 +1,10 @@
 - name: debug vars
-  hosts: localhost
+  hosts: example_routers
   gather_facts: no
 
   tasks:
     - name: try debugging stuff
-      debug:
-        msg: "{{ hostvars['nanopi-r5s']['networks'] | interfaces_by_zone }}"
+      import_role:
+        name: lanefu.clammy.foomuuri
+        tasks_from: debug.yml
 

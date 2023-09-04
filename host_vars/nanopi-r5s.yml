@@ -8,7 +8,7 @@ netplan_packages:
 
 # lets make a data structure for our networks
 
-networks:
+foomuuri_networks:
   wan:
     interface: wan
     description: wan
@@ -173,5 +173,3 @@ distribute_list:
   - name: 10
     dir: out
     protocol: connected
-
-foomuuri_zone_map: "{{ networks | interfaces_by_zone }}"
