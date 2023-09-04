@@ -70,6 +70,12 @@
       tags:
         - foomuuri
         - firewall
+    - name: Install extra router creature comforts
+      import_role:
+        name: lanefu.clammy.creature_comforts
+      tags:
+        - extras
+        - comforts
     - name: reminders
       debug:
         msg: dont forget to finish the project
