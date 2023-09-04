@@ -2,6 +2,7 @@
 collections:
   - name: ansible.posix
   - name: ansible.utils
+  - name: lanefu.clammy
 roles:
   - name: mrlesmithjr.ansible_dnsmasq
     version: "v1.3.2"

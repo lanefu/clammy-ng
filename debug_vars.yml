@@ -5,5 +5,5 @@
   tasks:
     - name: try debugging stuff
       debug:
-        msg: "{{ hostvars['nanopi-r5s']['networks'] | interfaces_by_zone }}"
+        msg: "{{ hostvars['nanopi-r5s']['networks'] | lanefu.clammy.interfaces_by_zone }}"
 

@@ -174,4 +174,4 @@ distribute_list:
     dir: out
     protocol: connected
 
-foomuuri_zone_map: "{{ networks | interfaces_by_zone }}"
+foomuuri_zone_map: "{{ networks | lanefu.clammy.interfaces_by_zone }}"
