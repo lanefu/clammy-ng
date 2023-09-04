@@ -77,23 +77,23 @@ lan_netplan_configuration:
           mii-monitor-interval: 100
           transmit-hash-policy: layer3+4
         addresses:
-          - "{{ networks.bond0.address_summarized }}"
+          - "{{ foomuuri_networks.bond0.address_summarized }}"
     vlans:
       test1:
         id: 1001
         link: bond0
         addresses:
-          - "{{ networks.test1.address_summarized }}"
+          - "{{ foomuuri_networks.test1.address_summarized }}"
       test2:
         id: 1002
         link: bond0
         addresses:
-          - "{{ networks.test2.address_summarized }}"
+          - "{{ foomuuri_networks.test2.address_summarized }}"
       ospf0:
         id: 100
         link: bond0
         addresses:
-          - "{{ networks.ospf0.address_summarized }}"
+          - "{{ foomuuri_networks.ospf0.address_summarized }}"
 
 dnsmasq_nameservers:
   - 8.8.4.4
@@ -104,20 +104,20 @@ dnsmasq_enable_dhcp: true
 dnsmasq_pri_domain_name: clammy-ng.example.com
 
 dnsmasq_dhcp_scopes:
-- interface: "{{ networks.bond0.interface }}"
-  netmask: "{{ networks.bond0.netmask }}"
-  start: "{{ networks.bond0.dhcp.start }}"
-  end: "{{ networks.bond0.dhcp.end }}"
+- interface: "{{ foomuuri_networks.bond0.interface }}"
+  netmask: "{{ foomuuri_networks.bond0.netmask }}"
+  start: "{{ foomuuri_networks.bond0.dhcp.start }}"
+  end: "{{ foomuuri_networks.bond0.dhcp.end }}"
   lease_time: "4h"
-- interface: "{{ networks.test1.interface }}"
-  netmask: "{{ networks.test1.netmask }}"
-  start: "{{ networks.test1.dhcp.start }}"
-  end: "{{ networks.test1.dhcp.end }}"
+- interface: "{{ foomuuri_networks.test1.interface }}"
+  netmask: "{{ foomuuri_networks.test1.netmask }}"
+  start: "{{ foomuuri_networks.test1.dhcp.start }}"
+  end: "{{ foomuuri_networks.test1.dhcp.end }}"
   lease_time: "4h"
-- interface: "{{ networks.test2.interface }}"
-  netmask: "{{ networks.test2.netmask }}"
-  start: "{{ networks.test2.dhcp.start }}"
-  end: "{{ networks.test2.dhcp.end }}"
+- interface: "{{ foomuuri_networks.test2.interface }}"
+  netmask: "{{ foomuuri_networks.test2.netmask }}"
+  start: "{{ foomuuri_networks.test2.dhcp.start }}"
+  end: "{{ foomuuri_networks.test2.dhcp.end }}"
   lease_time: "4h"
 
 frr_use_upstream_repo_debian: false
