@@ -7,7 +7,6 @@ netplan_packages:
  - netplan-generator # wondering if this is a debian sid thing
 
 # lets make a data structure for our networks
-
 foomuuri_networks:
   wan:
     interface: wan
@@ -50,6 +49,8 @@ foomuuri_networks:
     address_summarized: "172.17.19.3/29"
     zone: gateway
 
+
+foomuuri_config_dbus_zone: test0z
 iperf_rule: "tcp 5201"
 
 foomuuri_zone_policy:
@@ -59,6 +60,7 @@ foomuuri_zone_policy:
           description: my any rules
           rules:
             - ping
+            - domain
             - ssh
       - test1z:
           description: my public rules
@@ -95,6 +97,14 @@ foomuuri_zone_policy:
             - ssh
             - "{{ iperf_rule }}"
   gateway:
+    from_zone:
+      - any:
+          description: ping iperf ssh
+          rules:
+            - ping   
+            - ssh
+            - "{{ iperf_rule }}"
+  wan:
     from_zone:
       - any:
           description: ping iperf ssh
