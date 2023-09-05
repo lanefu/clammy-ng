@@ -53,6 +53,8 @@ foomuuri_networks:
 foomuuri_config_dbus_zone: test0z
 iperf_rule: "tcp 5201"
 
+foomuuri_start_allowed: yes
+
 foomuuri_zone_policy:
   localhost:
     to_zone: 
