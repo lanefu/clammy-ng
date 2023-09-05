@@ -55,13 +55,19 @@ iperf_rule: "tcp 5201"
 
 foomuuri_zone_policy:
   localhost:
-    from_zone: 
+    to_zone: 
       - any:
           description: my any rules
           rules:
             - ping
             - domain
             - ssh
+            - dhcp-client
+            - dhcp-server
+      - wan:
+          description: full internet access
+          rules:
+            - accept
       - gateway:
           description: must respect ospf
           rules:
@@ -75,41 +81,50 @@ foomuuri_zone_policy:
             - https
             - reject log
       - test2z:
-          description: Accept DNS queries to internal, in addition to localhost-any rules.
+          description: still learning
           rules:
-            - domain
             - reject log
   test0z:
-    from_zone:
+    to_zone:
       - any:
           description: ping iperf ssh
           rules:
             - ping   
+            - domain
+            - dhcp-server
             - ssh
             - "{{ iperf_rule }}"
+            - ntp
   test1z:
-    from_zone:
+    to_zone:
       - any:
           description: ping iperf ssh
           rules:
+            - dhcp-server
+            - domain
             - ping   
             - ssh
             - "{{ iperf_rule }}"
+            - ntp
   test2z:
-    from_zone:
+    to_zone:
       - any:
           description: ping iperf ssh
           rules:
+            - dhcp-server
+            - domain
             - ping   
             - ssh
+            - ntp
   gateway:
-    from_zone:
+    to_zone:
       - any:
           description: ping iperf ssh
           rules:
             - ping   
             - ssh
             - "{{ iperf_rule }}"
+            - domain
       - localhost:
           description: must respect ospf
           rules:
@@ -118,13 +133,12 @@ foomuuri_zone_policy:
             - broadcast accept
             - multicast accept
   wan:
-    from_zone:
+    to_zone:
       - any:
           description: ping iperf ssh
           rules:
             - ping   
             - ssh
-            - "{{ iperf_rule }}"
 
 wan_netplan_config_file: /etc/netplan/wan.yaml
 wan_netplan_configuration:
