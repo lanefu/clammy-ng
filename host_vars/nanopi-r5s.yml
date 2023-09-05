@@ -62,6 +62,13 @@ foomuuri_zone_policy:
             - ping
             - domain
             - ssh
+      - gateway:
+          description: must respect ospf
+          rules:
+            - "nft \"ip protocol 89 accept\""
+            - "nft \"ip protocol 2 accept\""
+            - broadcast accept
+            - multicast accept
       - test1z:
           description: my public rules
           rules:
@@ -95,7 +102,6 @@ foomuuri_zone_policy:
           rules:
             - ping   
             - ssh
-            - "{{ iperf_rule }}"
   gateway:
     from_zone:
       - any:
@@ -104,6 +110,13 @@ foomuuri_zone_policy:
             - ping   
             - ssh
             - "{{ iperf_rule }}"
+      - localhost:
+          description: must respect ospf
+          rules:
+            - "nft \"ip protocol 89 accept\""
+            - "nft \"ip protocol 2 accept\""
+            - broadcast accept
+            - multicast accept
   wan:
     from_zone:
       - any:
