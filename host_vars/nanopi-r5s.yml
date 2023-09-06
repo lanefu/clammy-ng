@@ -80,6 +80,7 @@ foomuuri_zone_policy:
       - test1z:
           description: my public rules
           rules:
+            - http
             - https
             - reject log
       - test2z:
@@ -186,6 +187,8 @@ lan_netplan_configuration:
         link: bond0
         addresses:
           - "{{ foomuuri_networks.ospf0.address_summarized }}"
+
+dnsmasq_resolvconf_nameserver: "127.0.0.1"
 
 dnsmasq_nameservers:
   - 8.8.4.4
