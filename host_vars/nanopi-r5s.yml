@@ -143,6 +143,22 @@ foomuuri_zone_policy:
             - ping   
             - ssh
 
+foomuuri_templates:
+  outgoing_services:
+    description: common outgoing services
+    rules:
+      - dhcp-server
+      - domain
+      - https
+      - ntp
+      - ping
+      - ssh
+  iot_services:
+    description: common outgoing services
+    rules:
+      - mqtt
+      - secure-mqtt
+
 wan_netplan_config_file: /etc/netplan/wan.yaml
 wan_netplan_configuration:
   network:

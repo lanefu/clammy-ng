@@ -4,6 +4,13 @@
   vars:
     example_var: "test"
   tasks:
+    - name: sanitize armbian defaults
+      import_role:
+        name: lanefu.clammy.sanitize_armbian_defaults
+      tags:
+        - core
+        - sanitize
+        - system
     - name: sysctl base configurations
       import_role:
         name: lanefu.clammy.sysctl_base
@@ -58,12 +65,24 @@
         - dns
         - dhcp
         - dnsmasq
+##FIXME need more elegant way in role to apply / flush
+    - name: Flush handlers to apply dnsmasq dns etc
+      meta: flush_handlers
+      tags:
+        - dnsmasq
+        - dns
+        - dhcp
     - name: frr routing role
       import_role:
         name: lanefu.clammy.frr
       tags:
         - frr
         - routing
+    - name: Flush handlers to apply frrouting 
+      meta: flush_handlers
+      tags:
+        - frrouting
+        - frr
     - name: foomuuri firewall role
       import_role:
         name: lanefu.clammy.foomuuri
