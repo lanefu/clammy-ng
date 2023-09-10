@@ -26,8 +26,8 @@ there are better ways, but this way for now...  `.gitignore` has been preconfigu
 assume you have python3 and python3-venv installed
 
 ```
-python3 venv venv
-source activate venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 python3 -m pip install requirements.txt
 ansible-galaxy install -r requirements.yml
 ansible-galaxy install -r requirements-clammy-ng.yml 

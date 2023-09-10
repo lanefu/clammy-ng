@@ -2,4 +2,3 @@
 collections:
   - name: ansible.posix
   - name: ansible.utils
-  - name: lanefu.clammy
