@@ -97,7 +97,7 @@
         - comforts
     - name: configure dynamic dns client
       import_role:
-        name: mivek.inadyn
+        name: lanefu.clammy.inadyn
       tags:
         - dyndns
         - dynamic-dns

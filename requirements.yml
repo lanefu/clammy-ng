@@ -2,6 +2,3 @@
 collections:
   - name: ansible.posix
   - name: ansible.utils
-roles:
-   - name: mivek.inadyn
-     version: "1.0.0"
