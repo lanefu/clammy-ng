@@ -284,3 +284,12 @@ distribute_list:
   - name: 10
     dir: out
     protocol: connected
+
+# see role mivek.inadyn
+configure_dynamic_dns: false
+inadyn_providers:
+  - name: freedns
+    username: freedns_user1
+    password: strongpassword
+    index: 1
+    hostname: free.example.com

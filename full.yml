@@ -95,9 +95,14 @@
       tags:
         - extras
         - comforts
-    - name: reminders
-      debug:
-        msg: dont forget to finish the project
+    - name: configure dynamic dns client
+      import_role:
+        name: mivek.inadyn
+      tags:
+        - dyndns
+        - dynamic-dns
+        - inadyn
+      when: configure_dynamic_dns | default('') is truthy(convert_bool=true)
     - name: reminders
       debug:
         msg: dont forget to finish the project
