@@ -29,7 +29,11 @@ Currently works:
 * dhcp zones
 * dns 
 * zone firewall policies
+* dynamic dns client setup
 * helper script for leases
+* armbian adjustments
+  * irqbalance
+  * schedutil governor
 * install some helpful tools
   * mtr 
   * bmon
@@ -38,7 +42,6 @@ Currently works:
   * dig
   * batcat
   * clammy_leases.sh
-
 
 ## getting started
 
