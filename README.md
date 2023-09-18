@@ -102,14 +102,9 @@ approach so far:
 
 ## demo and screenshots
 
-
-Basic foomuuri poc (without ansible) also shows off nanopi-r5s doing bonding via netplan / clammy-ng config
-
-[![asciicast](https://asciinema.org/a/oicZHCzBCD3uJET7eZ4Pwrr30.svg)](https://asciinema.org/a/oicZHCzBCD3uJET7eZ4Pwrr30)
-
 Updating firewall demo with ansible / clammy-ng
 
-[![asciicast](https://asciinema.org/a/qOuyMdIWZzd683I7zL0FhFDTD.svg)](https://asciinema.org/a/qOuyMdIWZzd683I7zL0FhFDTD)
+![firewalldemo](docs/assets/screenshots/firewall_demo01.gif)
 
 Clean interface names thanks to netplan
 
