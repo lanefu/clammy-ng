@@ -49,6 +49,13 @@ foomuuri_networks:
     address_summarized: "172.17.19.3/29"
     zone: gateway
 
+foomuuri_nat:
+  snat:
+    - saddr 192.168.100.0/24 oifname wan masquerade
+    - saddr 192.168.101.0/24 oifname wan masquerade
+  dnat:
+    - iifname wan http dnat to 192.168.101.100
+    - iifname wan https dnat to 192.168.101.100
 
 foomuuri_config_dbus_zone: test0z
 iperf_rule: "tcp 5201"
