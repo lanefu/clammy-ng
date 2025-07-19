@@ -1,6 +1,6 @@
-- hosts: 
-  - example_routers
- 
+- hosts:
+    - example_routers
+
   vars:
     example_var: "test"
   tasks:
@@ -18,7 +18,7 @@
         - core
         - sysctl
         - system
-    - name: configure wan interface with netplan 
+    - name: configure wan interface with netplan
       import_role:
         name: lanefu.clammy.netplan
       vars:
@@ -29,14 +29,14 @@
         - netplan
         - wan
         - interfaces
-##FIXME need more elegant way in role to apply / flush
+    ##FIXME need more elegant way in role to apply / flush
     - name: Flush handlers to apply netplan WAN now
       meta: flush_handlers
       tags:
         - netplan
         - wan
         - interfaces
-    - name: configure lan interfaces with netplan 
+    - name: configure lan interfaces with netplan
       import_role:
         name: lanefu.clammy.netplan
       vars:
@@ -48,7 +48,7 @@
         - netplan
         - lan
         - interfaces
-##FIXME need more elegant way in role to apply / flush
+    ##FIXME need more elegant way in role to apply / flush
     - name: Flush handlers to apply netplan LAN now
       meta: flush_handlers
       tags:
@@ -58,6 +58,12 @@
     - name: Wireguard interfaces
       debug:
         msg: you would probably do wireguard interfaces here
+    - name: install unbound recursive dns resolver
+      import_role:
+        name: lanefu.clammy.unbound
+      tags:
+        - dns
+        - unbound
     - name: dnsmasq role
       import_role:
         name: lanefu.clammy.dnsmasq
@@ -67,7 +73,7 @@
         - dnsmasq
       environment:
         CRYPTOGRAPHY_OPENSSL_NO_LEGACY: "1"
-##FIXME need more elegant way in role to apply / flush
+    ##FIXME need more elegant way in role to apply / flush
     - name: Flush handlers to apply dnsmasq dns etc
       meta: flush_handlers
       tags:
@@ -80,7 +86,7 @@
       tags:
         - frr
         - routing
-    - name: Flush handlers to apply frrouting 
+    - name: Flush handlers to apply frrouting
       meta: flush_handlers
       tags:
         - frrouting
