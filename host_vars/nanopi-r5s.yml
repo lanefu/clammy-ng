@@ -1,10 +1,9 @@
 ---
-
 netplan_enabled: true
 netplan_apply: false
 netplan_packages:
- - netplan.io
- - netplan-generator # wondering if this is a debian sid thing
+  - netplan.io
+  - netplan-generator # wondering if this is a debian sid thing
 
 # lets make a data structure for our networks
 foomuuri_networks:
@@ -64,7 +63,7 @@ foomuuri_start_allowed: yes
 
 foomuuri_zone_policy:
   localhost:
-    to_zone: 
+    to_zone:
       - any:
           description: my any rules
           rules:
@@ -80,8 +79,8 @@ foomuuri_zone_policy:
       - gateway:
           description: must respect ospf
           rules:
-            - "nft \"ip protocol 89 accept\""
-            - "nft \"ip protocol 2 accept\""
+            - 'nft "ip protocol 89 accept"'
+            - 'nft "ip protocol 2 accept"'
             - broadcast accept
             - multicast accept
       - test1z:
@@ -99,7 +98,7 @@ foomuuri_zone_policy:
       - any:
           description: ping iperf ssh
           rules:
-            - ping   
+            - ping
             - domain
             - dhcp-server
             - ssh
@@ -112,7 +111,7 @@ foomuuri_zone_policy:
           rules:
             - dhcp-server
             - domain
-            - ping   
+            - ping
             - ssh
             - "{{ iperf_rule }}"
             - ntp
@@ -123,7 +122,7 @@ foomuuri_zone_policy:
           rules:
             - dhcp-server
             - domain
-            - ping   
+            - ping
             - ssh
             - ntp
   gateway:
@@ -131,15 +130,15 @@ foomuuri_zone_policy:
       - any:
           description: ping iperf ssh
           rules:
-            - ping   
+            - ping
             - ssh
             - "{{ iperf_rule }}"
             - domain
       - localhost:
           description: must respect ospf
           rules:
-            - "nft \"ip protocol 89 accept\""
-            - "nft \"ip protocol 2 accept\""
+            - 'nft "ip protocol 89 accept"'
+            - 'nft "ip protocol 2 accept"'
             - broadcast accept
             - multicast accept
   wan:
@@ -147,7 +146,7 @@ foomuuri_zone_policy:
       - any:
           description: ping iperf ssh
           rules:
-            - ping   
+            - ping
             - ssh
 
 foomuuri_templates:
@@ -211,32 +210,76 @@ lan_netplan_configuration:
         addresses:
           - "{{ foomuuri_networks.ospf0.address_summarized }}"
 
+unbound_interfaces:
+  - 127.0.0.1
+  # - ::1
+unbound_port: 8853
+unbound_num_threads: 2
+unbound_verbosity: 2
+unbound_do_ip4: "yes"
+unbound_do_ip6: "no"
+unbound_do_udp: "yes"
+unbound_do_tcp: "yes"
+# If you want to filter private addreses from public records
+# unbound_private_addresses:
+# - 192.168.0.0/16
+# - 172.17.20.0/20
+# - 10.0.0.0/8
+unbound_access_control:
+  - 192.168.0.0/16 allow
+unbound_root_hints: "{{ unbound_directory }}/root.hints"
+unbound_root_hints_url: https://www.internic.net/domain/named.root
+unbound_root_hints_force_download: false
+
+unbound_prefetch: "yes"
+unbound_prefetch_key: "yes"
+
+unbound_control_enable: "yes"
+
+# FIXME: respip module breaks unbound check task (but it works)
+unbound_module_config: "respip validator iterator"
+# using rpz as blocklist
+unbound_rpz_zones:
+  - name: multi-light.rpz
+    url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/rpz/light.txt
+    rpz-log: "yes"
+    rpz-log-name: dns_blocklist_multi_light
+  - name: tif.rpz
+    url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/rpz/tif.txt
+    rpz-log: "yes"
+    rpz-log-name: dns_blocklist_tif
+  # - name: ultimate.rpz
+  #   url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/rpz/ultimate.txt
+  #   rpz-log: 'yes'
+  #   rpz-log-name: dns_blocklist_ultimate
+
 dnsmasq_resolvconf_nameserver: "127.0.0.1"
 
+# we'll use our local unbound recursive resolver for external
 dnsmasq_nameservers:
-  - 8.8.4.4
-  - 1.1.1.1
+  - 127.0.0.1#8853
+#  - 1.1.1.1
 
 dnsmasq_config: true
 dnsmasq_enable_dhcp: true
 dnsmasq_pri_domain_name: clammy-ng.example.com
 
 dnsmasq_dhcp_scopes:
-- interface: "{{ foomuuri_networks.bond0.interface }}"
-  netmask: "{{ foomuuri_networks.bond0.netmask }}"
-  start: "{{ foomuuri_networks.bond0.dhcp.start }}"
-  end: "{{ foomuuri_networks.bond0.dhcp.end }}"
-  lease_time: "4h"
-- interface: "{{ foomuuri_networks.test1.interface }}"
-  netmask: "{{ foomuuri_networks.test1.netmask }}"
-  start: "{{ foomuuri_networks.test1.dhcp.start }}"
-  end: "{{ foomuuri_networks.test1.dhcp.end }}"
-  lease_time: "4h"
-- interface: "{{ foomuuri_networks.test2.interface }}"
-  netmask: "{{ foomuuri_networks.test2.netmask }}"
-  start: "{{ foomuuri_networks.test2.dhcp.start }}"
-  end: "{{ foomuuri_networks.test2.dhcp.end }}"
-  lease_time: "4h"
+  - interface: "{{ foomuuri_networks.bond0.interface }}"
+    netmask: "{{ foomuuri_networks.bond0.netmask }}"
+    start: "{{ foomuuri_networks.bond0.dhcp.start }}"
+    end: "{{ foomuuri_networks.bond0.dhcp.end }}"
+    lease_time: "4h"
+  - interface: "{{ foomuuri_networks.test1.interface }}"
+    netmask: "{{ foomuuri_networks.test1.netmask }}"
+    start: "{{ foomuuri_networks.test1.dhcp.start }}"
+    end: "{{ foomuuri_networks.test1.dhcp.end }}"
+    lease_time: "4h"
+  - interface: "{{ foomuuri_networks.test2.interface }}"
+    netmask: "{{ foomuuri_networks.test2.netmask }}"
+    start: "{{ foomuuri_networks.test2.dhcp.start }}"
+    end: "{{ foomuuri_networks.test2.dhcp.end }}"
+    lease_time: "4h"
 
 frr_use_upstream_repo_debian: false
 frr_apt_version: frr-stable
