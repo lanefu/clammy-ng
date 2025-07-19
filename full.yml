@@ -65,6 +65,8 @@
         - dns
         - dhcp
         - dnsmasq
+      environment:
+        CRYPTOGRAPHY_OPENSSL_NO_LEGACY: "1"
 ##FIXME need more elegant way in role to apply / flush
     - name: Flush handlers to apply dnsmasq dns etc
       meta: flush_handlers
