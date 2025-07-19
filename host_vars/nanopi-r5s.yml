@@ -260,6 +260,9 @@ dnsmasq_nameservers:
   - 127.0.0.1#8853
 #  - 1.1.1.1
 
+# disable dnsmasq cache sice using unbound for resolver
+dnsmasq_cache_size: 0
+
 dnsmasq_config: true
 dnsmasq_enable_dhcp: true
 dnsmasq_pri_domain_name: clammy-ng.example.com
