@@ -25,6 +25,7 @@ following underlying components:
 - [foomuuri](https://github.com/FoobarOy/foomuuri)
 - dnsmasq
 - unbound
+- chrony
 - frrouting
 - wireguard
 
@@ -39,6 +40,7 @@ Currently works:
 - dhcp zones
 - dns
 - dns filtering using unbound rpz files
+- ntp server with chrony
 - zone firewall policies
 - dynamic dns client setup
 - helper script for leases
