@@ -97,6 +97,12 @@
       tags:
         - foomuuri
         - firewall
+    - name: Install chrony ntp server
+      import_role:
+        name: frzk.chrony
+      tags:
+        - ntp
+        - chrony
     - name: Install extra router creature comforts
       import_role:
         name: lanefu.clammy.creature_comforts

@@ -221,6 +221,18 @@ lan_netplan_configuration:
         addresses:
           - '{{ foomuuri_networks.ospf0.address_summarized }}'
 
+### chrony ntp configuration
+
+chrony_ntp_pools:
+  - 0.us.pool.ntp.org iburst maxpoll 10
+  - 1.us.pool.ntp.org iburst maxpoll 10
+  - 2.us.pool.ntp.org iburst maxpoll 10
+  - 3.us.pool.ntp.org iburst maxpoll 10
+chrony_allow:
+  - 10.0.0.0/8
+  - 192.168.0.0/16
+  - 172.16.0.0/12
+
 ### unbound configuration
 
 unbound_interfaces:
