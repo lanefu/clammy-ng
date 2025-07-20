@@ -104,6 +104,24 @@ ansible-galaxy install -r requirements-clammy-ng.yml
 - See the [nanopi-r5s host var](host_vars/nanopi-r5s.yml) for configuration
   example of all functionality.
 
+## Quirks
+
+### netplan
+
+Calling the netplan role twice is a little awkward since it really targets all
+netplan yaml files on netplan execution. It was more hygienic to have separate
+files files for the interfaces. This could be improved.
+
+### Debian
+
+I've been developing this against an Armbian build of Debian Trixie, and the
+process has been quite smooth. I've been utilizing the rolling release for over
+18 months, even when Trixie was still in the sid branch. This should function
+correctly with a standard Debian Trixie installation as well. While Foomuuri
+isn't directly available in the Debian Bookworm repositories, the role could be
+easily adapted to install it from source. However, my primary target for this
+project is Debian Trixie.
+
 ## demo and screenshots
 
 Updating firewall demo with ansible / clammy-ng
