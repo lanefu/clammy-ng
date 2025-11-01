@@ -2,6 +2,8 @@
 collections:
   - name: ansible.posix
   - name: ansible.utils
+  - name: containers.podman
+  - name: community.general
 roles:
   - name: geerlingguy.ntp
   - name: frzk.chrony

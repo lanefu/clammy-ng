@@ -17,9 +17,9 @@ foomuuri_networks:
     interface: bond0
     description: test network 0 untagged
     zone: test0z
-    address: '192.168.100.1'
-    netmask: '255.255.255.0'
-    address_summarized: '192.168.100.1/24'
+    address: "192.168.100.1"
+    netmask: "255.255.255.0"
+    address_summarized: "192.168.100.1/24"
     dhcp:
       start: 192.168.100.100
       end: 192.168.100.150
@@ -27,9 +27,9 @@ foomuuri_networks:
     interface: test1
     description: test network 1
     zone: test1z
-    address: '192.168.101.1'
-    netmask: '255.255.255.0'
-    address_summarized: '192.168.101.1/24'
+    address: "192.168.101.1"
+    netmask: "255.255.255.0"
+    address_summarized: "192.168.101.1/24"
     dhcp:
       start: 192.168.101.100
       end: 192.168.101.150
@@ -37,18 +37,25 @@ foomuuri_networks:
     interface: test2
     description: test network 1
     zone: test2z
-    address: '192.168.102.1'
-    netmask: '255.255.255.0'
-    address_summarized: '192.168.102.1/24'
+    address: "192.168.102.1"
+    netmask: "255.255.255.0"
+    address_summarized: "192.168.102.1/24"
     dhcp:
       start: 192.168.102.100
       end: 192.168.102.150
   ospf0:
     interface: ospf0
     description: internal routing interface
-    address: '172.17.19.3'
-    address_summarized: '172.17.19.3/29'
+    address: "172.17.19.3"
+    address_summarized: "172.17.19.3/29"
     zone: gateway
+  clammy_podman0:
+    interface: clammy_podman0
+    description: podman bridge
+    zone: podman
+    address: "192.168.18.1"
+    netmask: "255.255.255.0"
+    address_summarized: "192.168.18.1/24"
 
 ## basic source and destionation nat configuration for our WAN interface
 
@@ -61,7 +68,7 @@ foomuuri_nat:
     - iifname wan https dnat to 192.168.101.100
 
 foomuuri_config_dbus_zone: test0z
-iperf_rule: 'tcp 5201'
+iperf_rule: "tcp 5201"
 
 foomuuri_start_allowed: yes
 
@@ -106,7 +113,7 @@ foomuuri_zone_policy:
             - domain
             - dhcp-server
             - ssh
-            - '{{ iperf_rule }}'
+            - "{{ iperf_rule }}"
             - ntp
   test1z:
     to_zone:
@@ -117,7 +124,7 @@ foomuuri_zone_policy:
             - domain
             - ping
             - ssh
-            - '{{ iperf_rule }}'
+            - "{{ iperf_rule }}"
             - ntp
   test2z:
     to_zone:
@@ -136,7 +143,7 @@ foomuuri_zone_policy:
           rules:
             - ping
             - ssh
-            - '{{ iperf_rule }}'
+            - "{{ iperf_rule }}"
             - domain
       - localhost:
           description: must respect ospf
@@ -152,6 +159,20 @@ foomuuri_zone_policy:
           rules:
             - ping
             - ssh
+  podman:
+    to_zone:
+      - any:
+          description: podman defaults
+          rules:
+            - domain
+            - ping
+            - ssh
+            - "{{ iperf_rule }}"
+            - ntp
+      - wan:
+          description: podman full access to internet
+          rules:
+            - accept
 
 foomuuri_templates:
   outgoing_services:
@@ -203,23 +224,23 @@ lan_netplan_configuration:
           mii-monitor-interval: 100
           transmit-hash-policy: layer3+4
         addresses:
-          - '{{ foomuuri_networks.bond0.address_summarized }}'
+          - "{{ foomuuri_networks.bond0.address_summarized }}"
     vlans:
       test1:
         id: 1001
         link: bond0
         addresses:
-          - '{{ foomuuri_networks.test1.address_summarized }}'
+          - "{{ foomuuri_networks.test1.address_summarized }}"
       test2:
         id: 1002
         link: bond0
         addresses:
-          - '{{ foomuuri_networks.test2.address_summarized }}'
+          - "{{ foomuuri_networks.test2.address_summarized }}"
       ospf0:
         id: 100
         link: bond0
         addresses:
-          - '{{ foomuuri_networks.ospf0.address_summarized }}'
+          - "{{ foomuuri_networks.ospf0.address_summarized }}"
 
 ### chrony ntp configuration
 
@@ -241,10 +262,10 @@ unbound_interfaces:
 unbound_port: 8853
 unbound_num_threads: 2
 unbound_verbosity: 2
-unbound_do_ip4: 'yes'
-unbound_do_ip6: 'no'
-unbound_do_udp: 'yes'
-unbound_do_tcp: 'yes'
+unbound_do_ip4: "yes"
+unbound_do_ip6: "no"
+unbound_do_udp: "yes"
+unbound_do_tcp: "yes"
 # If you want to filter private addreses from public records
 # unbound_private_addresses:
 # - 192.168.0.0/16
@@ -252,25 +273,25 @@ unbound_do_tcp: 'yes'
 # - 10.0.0.0/8
 unbound_access_control:
   - 192.168.0.0/16 allow
-unbound_root_hints: '{{ unbound_directory }}/root.hints'
+unbound_root_hints: "{{ unbound_directory }}/root.hints"
 unbound_root_hints_url: https://www.internic.net/domain/named.root
 unbound_root_hints_force_download: false
 
-unbound_prefetch: 'yes'
-unbound_prefetch_key: 'yes'
+unbound_prefetch: "yes"
+unbound_prefetch_key: "yes"
 
-unbound_control_enable: 'yes'
+unbound_control_enable: "yes"
 
 ## dns blocklist functionality
-unbound_module_config: 'respip validator iterator'
+unbound_module_config: "respip validator iterator"
 unbound_rpz_zones:
   - name: multi-light.rpz
     url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/rpz/light.txt
-    rpz-log: 'yes'
+    rpz-log: "yes"
     rpz-log-name: dns_blocklist_multi_light
   - name: tif.rpz
     url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/rpz/tif.txt
-    rpz-log: 'yes'
+    rpz-log: "yes"
     rpz-log-name: dns_blocklist_tif
   # - name: ultimate.rpz
   #   url: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/rpz/ultimate.txt
@@ -280,7 +301,7 @@ unbound_rpz_zones:
 ### dnsmasq configuration
 
 # I forgot why this setting is here
-dnsmasq_resolvconf_nameserver: '127.0.0.1'
+dnsmasq_resolvconf_nameserver: "127.0.0.1"
 
 # we'll use our local unbound recursive resolver for external
 dnsmasq_nameservers:
@@ -295,28 +316,27 @@ dnsmasq_enable_dhcp: true
 dnsmasq_pri_domain_name: clammy-ng.example.com
 
 dnsmasq_dhcp_scopes:
-  - interface: '{{ foomuuri_networks.bond0.interface }}'
-    netmask: '{{ foomuuri_networks.bond0.netmask }}'
-    start: '{{ foomuuri_networks.bond0.dhcp.start }}'
-    end: '{{ foomuuri_networks.bond0.dhcp.end }}'
-    lease_time: '4h'
-  - interface: '{{ foomuuri_networks.test1.interface }}'
-    netmask: '{{ foomuuri_networks.test1.netmask }}'
-    start: '{{ foomuuri_networks.test1.dhcp.start }}'
-    end: '{{ foomuuri_networks.test1.dhcp.end }}'
-    lease_time: '4h'
-  - interface: '{{ foomuuri_networks.test2.interface }}'
-    netmask: '{{ foomuuri_networks.test2.netmask }}'
-    start: '{{ foomuuri_networks.test2.dhcp.start }}'
-    end: '{{ foomuuri_networks.test2.dhcp.end }}'
-    lease_time: '4h'
+  - interface: "{{ foomuuri_networks.bond0.interface }}"
+    netmask: "{{ foomuuri_networks.bond0.netmask }}"
+    start: "{{ foomuuri_networks.bond0.dhcp.start }}"
+    end: "{{ foomuuri_networks.bond0.dhcp.end }}"
+    lease_time: "4h"
+  - interface: "{{ foomuuri_networks.test1.interface }}"
+    netmask: "{{ foomuuri_networks.test1.netmask }}"
+    start: "{{ foomuuri_networks.test1.dhcp.start }}"
+    end: "{{ foomuuri_networks.test1.dhcp.end }}"
+    lease_time: "4h"
+  - interface: "{{ foomuuri_networks.test2.interface }}"
+    netmask: "{{ foomuuri_networks.test2.netmask }}"
+    start: "{{ foomuuri_networks.test2.dhcp.start }}"
+    end: "{{ foomuuri_networks.test2.dhcp.end }}"
+    lease_time: "4h"
 
 ### frrouting confugration
 
 frr_use_upstream_repo_debian: false
 frr_apt_version: frr-stable
-frr_apt_repository:
-  'deb https://deb.frrouting.org/frr bookworm {{ frr_apt_version }}'
+frr_apt_repository: "deb https://deb.frrouting.org/frr bookworm {{ frr_apt_version }}"
 frr_apt_always_install_latest: true
 
 dynamic_routing: true
@@ -378,3 +398,7 @@ inadyn_providers:
     password: strongpassword
     index: 1
     hostname: free.example.com
+
+# you may not want this
+comforts_use_podman: true
+comforts_podman_address_summarized: "{{ foomuuri_networks.clammy_podman0.address_summarized }}"
