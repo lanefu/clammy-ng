@@ -44,6 +44,7 @@ Currently works:
 - zone firewall policies
 - dynamic dns client setup
 - helper script for leases
+  - clammy_leases.sh
 - armbian adjustments
   - irqbalance
   - schedutil governor
@@ -54,7 +55,8 @@ Currently works:
   - lnav
   - dig
   - batcat
-  - clammy_leases.sh
+  - gping
+  - btop
 
 ## getting started
 
