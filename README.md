@@ -29,12 +29,10 @@ following underlying components:
 - frrouting
 - wireguard
 
-## functionality status
-
-Currently works:
+## current capabilities
 
 - wan configuration
-- bonidng/LACP config
+- bonding/LACP config
 - vlan support
 - dynamic routing via frrouting
 - dhcp zones
@@ -45,6 +43,10 @@ Currently works:
 - dynamic dns client setup
 - helper script for leases
   - clammy_leases.sh
+- helper script for report logs
+  - firewall_report_wan_sample.sh
+- helper script for rustnet-monitor
+  - rustnet_wrapper.sh
 - armbian adjustments
   - irqbalance
   - schedutil governor
@@ -57,10 +59,11 @@ Currently works:
   - batcat
   - gping
   - btop
+- podman support for easy off-the-shelf add-ons
 
 ## getting started
 
-This repo is meant to be the ansible project directory.. or close to it plus
+This repo is meant to be the ansible project directory--or close to it plus
 documentation.. Trying to leverage off-the-shelf roles when possible. Other
 roles will via the
 [clammy collection](https://github.com/lanefu/ansible-collection-clammy) The
@@ -70,8 +73,8 @@ are very understandable. code should be straight forward
 ### environment setup
 
 There are better ways, but this way for now... `.gitignore` has been
-preconfigured to use namedspace ansible home `~/.clammy-ng-ansible/` and `venv`
-used in the example.
+preconfigured to use a namedspace ansible home `~/.clammy-ng-ansible/` and
+`venv` used in the example.
 
 #### requirements
 
