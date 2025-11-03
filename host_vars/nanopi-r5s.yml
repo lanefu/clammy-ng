@@ -203,6 +203,7 @@ wan_netplan_configuration:
     ethernets:
       wan:
         dhcp4: yes
+        critical: yes
 
 lan_netplan_config_file: /etc/netplan/lan.yaml
 lan_netplan_configuration:
