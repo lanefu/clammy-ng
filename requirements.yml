@@ -7,3 +7,5 @@ collections:
 roles:
   - name: geerlingguy.ntp
   - name: frzk.chrony
+    src: https://github.com/Frzk/ansible-role-chrony.git
+    version: main
